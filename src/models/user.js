@@ -1,5 +1,5 @@
 const mongodb = require('mongodb');
-const constants = require('../constants');
+const constants = require('../../constants');
 
 console.log(constants);
 
@@ -11,7 +11,7 @@ console.log(constants);
  * @param {*} response JSON data of all users
  */
 exports.getAllUsers = (request, response) => {
-  mongodb.MongoClient.connect(constants.CONNECTION_URL, function (err, client) {
+  mongodb.MongoClient.connect(constants.MONGODB, function (err, client) {
     const db = client.db(constants.DATABASE_NAME);
 
     users = db.collection("user").find().toArray();
@@ -32,7 +32,7 @@ exports.getAllUsers = (request, response) => {
  * @param {*} response 
  */
 exports.createUserTest = (request, response) => {
-  mongodb.MongoClient.connect(constants.CONNECTION_URL, function (err, client) {
+  mongodb.MongoClient.connect(constants.MONGODB, function (err, client) {
     const db = client.db(constants.DATABASE_NAME);
 
     let newData = {

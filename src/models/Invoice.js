@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const { composeWithMongoose } = require("graphql-compose-mongoose");
 const Schema = mongoose.Schema;
 
-let product = require("Product");
+let product = require("./Product");
 
-let Budget = new Schema(
+let Invoice = new Schema(
   {
-    idBudget: {
+    idInvoice: {
       type: Number,
     },
     idWork: {
@@ -28,7 +28,7 @@ let Budget = new Schema(
       type: String,
     },
     products: {
-      type: [product],
+      type: Array,
     },
   },
 
@@ -41,6 +41,6 @@ let Budget = new Schema(
 );
 
 module.exports = {
-  BudgetSchema: mongoose.model("Budget", Budget),
-  BudgetTC: composeWithMongoose(mongoose.model("Budget", Budget)),
+  InvoiceSchema: mongoose.model("Invoice", Invoice),
+  InvoiceTC: composeWithMongoose(mongoose.model("Invoice", Invoice)),
 };
