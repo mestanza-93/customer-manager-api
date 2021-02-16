@@ -1,0 +1,16 @@
+mutation {
+  CustomerCreateOne(
+    record: {
+      name: "Pablo",
+      lastname: "Mestanza Luque",
+      phone: 662278632,
+      phone2: 952413640,
+      dni: "76748574N",
+      postalcode: 29004,
+      address: "Avenida Imperio Argentina Número 5",
+      town: "Málaga"
+    }
+  ) {
+  	recordId
+  }
+}

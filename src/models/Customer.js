@@ -7,7 +7,7 @@ let Customer = new Schema(
     name: {
       type: String,
     },
-    lastmame: {
+    lastname: {
       type: String,
     },
     phone: {

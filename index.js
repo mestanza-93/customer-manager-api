@@ -6,7 +6,6 @@ const path = require("path");
 
 const constants = require("./constants")
 
-// const userFunctions = require(path.join(constants.MODELS_PATH, "user"));
 const logger = require(constants.CORE_PATH + "/logger");
 
 const extensions = ({ context }) => {
@@ -18,7 +17,7 @@ const extensions = ({ context }) => {
 app.use(logger);
 
 app.listen(constants.PORT, async () => {
-  console.log("Running in PORT: {{constants.PORT}}");
+  console.log(`Running in PORT: ${constants.PORT}`);
   await mongoose.connect(constants.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -43,6 +42,8 @@ app.use(
     };
   })
 );
+
+// const userFunctions = require(path.join(constants.MODELS_PATH, "user"));
 
 // exports.createUserTest = (request, response) => {
 
