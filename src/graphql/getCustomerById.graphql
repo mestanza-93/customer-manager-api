@@ -1,0 +1,14 @@
+{
+  CustomerById(_id: "214dfsf542") {
+    name
+    lastname
+    phone
+    phone2
+    dni
+    postalcode
+    address
+    town
+    updated_at
+    created_at
+  }
+}

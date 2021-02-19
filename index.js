@@ -24,11 +24,6 @@ app.listen(constants.PORT, async () => {
   });
 });
 
-// mongoose.connection.on(
-//   "error",
-//   console.error.bind(console, "MongoDB connection error:")
-// );
-
 const graphqlSchema = require(constants.SCHEMAS_PATH + "/index");
 
 app.use(
@@ -37,6 +32,17 @@ app.use(
     return {
       context: { startTime: Date.now() },
       graphiql: true,
+      schema: graphqlSchema,
+      extensions,
+    };
+  })
+);
+
+app.use(
+  "/",
+  graphqlHTTP((request) => {
+    return {
+      context: { startTime: Date.now() },
       schema: graphqlSchema,
       extensions,
     };

@@ -1,0 +1,14 @@
+{
+  CustomerMany(limit: 100) {
+    name
+    lastname
+    phone
+    phone2
+    dni
+    postalcode
+    address
+    town
+    updated_at
+    created_at
+  }
+}
