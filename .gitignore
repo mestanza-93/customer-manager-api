@@ -36,6 +36,7 @@ package-lock.json
 
 # Scripts
 scripts/database
+scripts/json_files
 
 # IDE
 **/.idea
