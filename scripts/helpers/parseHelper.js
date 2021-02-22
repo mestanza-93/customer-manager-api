@@ -1,20 +1,31 @@
-function convertTimestamp (timestamp) 
+function formatDate (value) 
 {
-    var a = new Date(timestamp * 1000);
+    var time = null;
+    var date = new Date(value);
 
-    console.log(a);
+    if (isValidDate) {
+        var year = date.getFullYear();
+        var month = twoDigitsDate(date.getMonth());
+        var day = twoDigitsDate(date.getDate());
+        var hour = twoDigitsDate(date.getHours());
+        var min = twoDigitsDate(date.getMinutes());
+        var sec = twoDigitsDate(date.getSeconds());
 
-    var year = a.getFullYear();
-    var month = ("0" + (a.getMonth() + 1)).slice(-2);
-    var day = a.getDate();
-    var hour = ("0" + (a.getHours() + 1)).slice(-2);
-    var min = ("0" + (a.getMinutes() + 1)).slice(-2);
-    var sec =("0" + (a.getSeconds() + 1)).slice(-2);
-    var mili = a.getMilliseconds();
-    var time = year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + '.' + mili + '+00:00';
-
+        var time = year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + '.000+00:00';
+    }
+    
     return time;
 }
 
 
-module.exports = { convertTimestamp };
+function twoDigitsDate (value)
+{
+    return ("0" + (value + 1)).slice(-2);
+}
+
+function isValidDate (date) 
+{
+    return date instanceof Date && !isNaN(date);
+}
+
+module.exports = { formatDate };

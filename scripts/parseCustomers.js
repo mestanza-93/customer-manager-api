@@ -41,8 +41,8 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
 
             customer = JSON.parse(customer);
 
-            customer.created_at = helper.convertTimestamp(customer.created_at.$$date);
-            customer.updated_at = helper.convertTimestamp(customer.updated_at.$$date);
+            customer.created_at = helper.formatDate(customer.created_at.$$date);
+            customer.updated_at = helper.formatDate(customer.updated_at.$$date);
 
             data.customers.push(customer);
         }
