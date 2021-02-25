@@ -1,0 +1,9 @@
+mutation {
+  ProductCreateOne(record: {
+    concept: "Instalación osmosis"
+    base: 40
+    units: 1
+  }) {
+    recordId
+  }
+}
