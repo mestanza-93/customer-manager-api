@@ -7,7 +7,7 @@ let Work = new Schema(
     name: {
       type: String,
     },
-    idCustomer: {
+    customer_id: {
       type: String,
     },
     date: {

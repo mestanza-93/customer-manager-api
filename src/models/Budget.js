@@ -28,7 +28,7 @@ let Budget = new Schema(
       type: String,
     },
     products: {
-      type: Array,
+      type: [product.Schema],
     },
   },
 

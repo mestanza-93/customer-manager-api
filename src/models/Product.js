@@ -15,6 +15,7 @@ let Product = new Schema({
 });
 
 module.exports = {
+  Schema: Product,
   ProductSchema: mongoose.model("Product", Product),
   ProductTC: composeWithMongoose(mongoose.model("Product", Product)),
 };
