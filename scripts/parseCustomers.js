@@ -15,7 +15,7 @@ const fields = {
     address: 'address',
     town: 'town',
     createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    updatedAt: 'updated_at'
 };
 
 
