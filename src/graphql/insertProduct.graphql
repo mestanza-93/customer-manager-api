@@ -3,6 +3,8 @@ mutation {
     concept: "Instalación osmosis"
     base: 40
     units: 1
+    official: true
+    relation_id: "6038d0cf344f1ca7d9cb842d"
   }) {
     recordId
   }

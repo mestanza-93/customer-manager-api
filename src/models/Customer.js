@@ -5,28 +5,28 @@ const Schema = mongoose.Schema;
 let Customer = new Schema(
   {
     name: {
-      type: String,
+      type: String
     },
     lastname: {
-      type: String,
+      type: String
     },
     phone: {
-      type: Number,
+      type: Number
     },
     phone2: {
-      type: Number,
+      type: Number
     },
     dni: {
-      type: String,
+      type: String
     },
     postalcode: {
-      type: Number,
+      type: Number
     },
     address: {
-      type: String,
+      type: String
     },
     town: {
-      type: String,
+      type: String
     },
   },
 

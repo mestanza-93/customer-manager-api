@@ -5,16 +5,17 @@ const Schema = mongoose.Schema;
 let Work = new Schema(
   {
     name: {
-      type: String,
+      type: String
     },
     customer_id: {
-      type: String,
+      type: String
     },
     date: {
       type: Date,
+      default: Date.now
     },
     timestamp: {
-      type: String,
+      type: String
     },
   },
 

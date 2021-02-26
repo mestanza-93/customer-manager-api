@@ -1,0 +1,9 @@
+mutation {
+  WorkCreateOne(record: {
+    name: "Instalación de termo eléctrico en casa del cliente"
+    customer_id: "6038c6606654b88d64bc88d2"
+
+  }) {
+    recordId
+  }
+}

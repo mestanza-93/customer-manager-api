@@ -1,0 +1,11 @@
+mutation {
+  InvoiceCreateOne(record: {
+    invoice_id: 1
+    work_id: "6038cd638f8b79a277c7c6ed"
+    iva: 21
+    payment: 1
+    comment: "Garantia de 2 años"
+  }) {
+    recordId
+  }
+}

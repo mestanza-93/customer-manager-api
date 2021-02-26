@@ -7,11 +7,17 @@ let Product = new Schema({
     type: String,
   },
   base: {
-    type: Number,
+    type: Number
   },
   units: {
-    type: Number,
+    type: Number
   },
+  official: {
+    type: Boolean
+  },
+  relation_id: {
+    type: String
+  }
 });
 
 module.exports = {

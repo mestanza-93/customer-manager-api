@@ -1,5 +1,5 @@
 {
-  CustomerMany(limit: 100) {
+  CustomerMany(limit: 50) {
     name
     lastname
     phone

@@ -6,37 +6,37 @@ const Schema = mongoose.Schema;
 let User = new Schema(
   {
     name: {
-      type: String,
+      type: String
     },
     lastname: {
-      type: String,
+      type: String
     },
     address: {
-      type: String,
+      type: String
     },
     town: {
-      type: String,
+      type: String
     },
     province: {
-      type: String,
+      type: String
     },
     country: {
-      type: String,
+      type: String
     },
     postalcode: {
-      type: String,
+      type: String
     },
     dni: {
-      type: String,
+      type: String
     },
     phone: {
-      type: Number,
+      type: Number
     },
     email: {
-      type: String,
+      type: String
     },
     iban: {
-      type: String,
+      type: String
     },
   },
 

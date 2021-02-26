@@ -6,26 +6,27 @@ let product = require("./Product");
 
 let Invoice = new Schema(
   {
-    idInvoice: {
-      type: Number,
+    invoice_id: {
+      type: Number
     },
-    idWork: {
-      type: String,
+    work_id: {
+      type: String
     },
     iva: {
-      type: Number,
+      type: Number
     },
     date: {
       type: Date,
+      default: Date.now
     },
     payment: {
-      type: Number,
+      type: Number
     },
     comment: {
-      type: String,
+      type: String
     },
     timestamp: {
-      type: String,
+      type: String
     },
     products: {
       type: [product.Schema],
