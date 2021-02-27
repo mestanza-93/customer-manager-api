@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { composeWithMongoose } = require("graphql-compose-mongoose");
 const Schema = mongoose.Schema;
 
-let Product = new Schema({
+let Concept = new Schema({
   concept: {
     type: String,
   },
@@ -21,7 +21,7 @@ let Product = new Schema({
 });
 
 module.exports = {
-  Schema: Product,
-  ProductSchema: mongoose.model("Product", Product),
-  ProductTC: composeWithMongoose(mongoose.model("Product", Product)),
+  Schema: Concept,
+  ConceptSchema: mongoose.model("Concept", Concept),
+  ConceptTC: composeWithMongoose(mongoose.model("Concept", Concept)),
 };

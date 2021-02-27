@@ -1,9 +1,10 @@
 const fs = require('fs');
+const { exit } = require('process');
 const helper = require('./helpers/parseHelper');
 
 const file = "scripts/database/invoice.db";
 const jsonFile = "scripts/json_files/invoices.json";
-const productFile = "scripts/json_files/products.json";
+const conceptFile = "scripts/json_files/invoice_concepts.json";
 
 const fields = {
     _id: '_id',
@@ -17,7 +18,7 @@ const fields = {
     updatedAt: 'updated_at'
 };
 
-const fieldsProduct = {
+const fieldsConcept = {
     concept: "concept",
     base: "base",
     units: "units",
@@ -28,8 +29,8 @@ const fieldsProduct = {
 var data = {
     invoices: []
 };
-var dataProduct = {
-    products: []
+var dataConcept = {
+    concepts: []
 };
 var invoicesArray = [];
 
@@ -56,41 +57,44 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
 
             var year = helper.getYear(invoice.timestamp);
 
-            if (!invoicesArray[year+invoice.invoice_id]) {
-                invoicesArray[year+invoice.invoice_id] = invoice._id;
-                insertInvoice = true;
-            }
-
             invoice.date = helper.formatDate(invoice.timestamp);
-
+            invoice.year = year;
             invoice.created_at = helper.formatDate(invoice.created_at.$$date);
             invoice.updated_at = helper.formatDate(invoice.updated_at.$$date);
 
-            var product = {};
-            for (var field in fieldsProduct) {
-                product[fieldsProduct[field]] = invoice[field] ?? null;
+            var concept = {};
+
+            for (var field in fieldsConcept) {
+                concept[fieldsConcept[field]] = invoice[field] ?? null;
             }
 
-            product['relation_id'] = invoicesArray[year+invoice.invoice_id];
-            product['official'] = true;
+            concept['official'] = true;
 
-            if (insertInvoice) {
-                
+            if (!invoicesArray[year+invoice.invoice_id]) {
                 delete invoice['timestamp'];
                 delete invoice['concept'];
                 delete invoice['base'];
                 delete invoice['units'];
 
-                data.invoices.push(invoice);
-   
+                invoice.concepts = [];
+                invoicesArray[year+invoice.invoice_id] = invoice;
             }
 
-            dataProduct.products.push(product);
+            invoicesArray[year+invoice.invoice_id].concepts.push(concept);
+
+            console.log(invoicesArray);
+            exit(1);
+   
+            // dataConcept.concepts.push(concept);
         }
     });
 
+    data.invoices = invoicesArray;
+
+    console.log(data);
+
     json = JSON.stringify(data);
-    jsonProducts = JSON.stringify(dataProduct);
+    jsonconcepts = JSON.stringify(dataConcept);
 
     fs.writeFile(jsonFile, json, 'utf8', (err) => {
         if (err) {
@@ -98,7 +102,7 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
         }
     });
     
-    fs.writeFile(productFile, jsonProducts, 'utf8', (err) => {
+    fs.writeFile(conceptFile, jsonconcepts, 'utf8', (err) => {
         if (err) {
             console.log('File write failed: ', err);
         }

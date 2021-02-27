@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { composeWithMongoose } = require("graphql-compose-mongoose");
 const Schema = mongoose.Schema;
 
-let product = require("./Product");
+let concept = require("./Concept");
 
 let Invoice = new Schema(
   {
@@ -31,8 +31,8 @@ let Invoice = new Schema(
     timestamp: {
       type: String
     },
-    products: {
-      type: [product.Schema],
+    concepts: {
+      type: [concept.Schema],
     },
   },
 
