@@ -25,19 +25,19 @@ const fieldsProduct = {
     relation_id: "relation_id"
 };
 
+var data = {
+    invoices: []
+};
+var dataProduct = {
+    products: []
+};
+var invoicesArray = [];
+
 
 fs.readFile(file, 'utf8', (err, jsonString) => {
     if (err) {
         console.log('File read failed: ', err);
     }
-
-    var data = {
-        invoices: []
-    };
-
-    var dataProduct = {
-        products: []
-    };
 
     jsonString = jsonString.replace(/}}/gi, '}}#')
     var invoices = jsonString.split('#');
@@ -46,28 +46,59 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
 
         if (invoice) {
 
+            var insertInvoice = false;
+
             for (var field in fields) {
                 invoice = invoice.replace(field, fields[field]);
             };
             
             invoice = JSON.parse(invoice);
 
+            var year = helper.getYear(invoice.timestamp);
+
+            if (!invoicesArray[year+invoice.invoice_id]) {
+                invoicesArray[year+invoice.invoice_id] = invoice._id;
+                insertInvoice = true;
+            }
+
             invoice.date = helper.formatDate(invoice.timestamp);
 
             invoice.created_at = helper.formatDate(invoice.created_at.$$date);
             invoice.updated_at = helper.formatDate(invoice.updated_at.$$date);
 
-            delete invoice['concept'];
-            delete invoice['base'];
-            delete invoice['units'];
+            var product = {};
+            for (var field in fieldsProduct) {
+                product[fieldsProduct[field]] = invoice[field] ?? null;
+            }
 
-            data.invoices.push(invoice);
+            product['relation_id'] = invoicesArray[year+invoice.invoice_id];
+            product['official'] = true;
+
+            if (insertInvoice) {
+                
+                delete invoice['timestamp'];
+                delete invoice['concept'];
+                delete invoice['base'];
+                delete invoice['units'];
+
+                data.invoices.push(invoice);
+   
+            }
+
+            dataProduct.products.push(product);
         }
     });
 
     json = JSON.stringify(data);
+    jsonProducts = JSON.stringify(dataProduct);
 
     fs.writeFile(jsonFile, json, 'utf8', (err) => {
+        if (err) {
+            console.log('File write failed: ', err);
+        }
+    });
+    
+    fs.writeFile(productFile, jsonProducts, 'utf8', (err) => {
         if (err) {
             console.log('File write failed: ', err);
         }

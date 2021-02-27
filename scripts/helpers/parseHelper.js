@@ -28,4 +28,12 @@ function isValidDate (date)
     return date instanceof Date && !isNaN(date);
 }
 
-module.exports = { formatDate };
+
+function getYear (date)
+{
+    var datetime = new Date(date);
+
+    return datetime.getFullYear() ?? null;
+}
+
+module.exports = { formatDate, getYear };
