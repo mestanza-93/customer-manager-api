@@ -4,7 +4,6 @@ const helper = require('./helpers/parseHelper');
 
 const file = "scripts/database/invoice.db";
 const jsonFile = "scripts/json_files/invoices.json";
-const conceptFile = "scripts/json_files/invoice_concepts.json";
 
 const fields = {
     _id: '_id',
@@ -22,16 +21,9 @@ const fieldsConcept = {
     concept: "concept",
     base: "base",
     units: "units",
-    official: "official",
-    relation_id: "relation_id"
+    official: "official"
 };
 
-var data = {
-    invoices: []
-};
-var dataConcept = {
-    concepts: []
-};
 var invoicesArray = [];
 
 
@@ -46,8 +38,6 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
     invoices.forEach(invoice => {
 
         if (invoice) {
-
-            var insertInvoice = false;
 
             for (var field in fields) {
                 invoice = invoice.replace(field, fields[field]);
@@ -81,33 +71,19 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
             }
 
             invoicesArray[year+invoice.invoice_id].concepts.push(concept);
-
-            console.log(invoicesArray);
-            exit(1);
-   
-            // dataConcept.concepts.push(concept);
         }
     });
 
-    data.invoices = invoicesArray;
-
-    console.log(data);
-
-    json = JSON.stringify(data);
-    jsonconcepts = JSON.stringify(dataConcept);
+    invoicesArray = helper.cleanArray(invoicesArray);
+    json = JSON.stringify(invoicesArray);
 
     fs.writeFile(jsonFile, json, 'utf8', (err) => {
         if (err) {
             console.log('File write failed: ', err);
+        } else {
+            console.log('File write OK');
         }
     });
-    
-    fs.writeFile(conceptFile, jsonconcepts, 'utf8', (err) => {
-        if (err) {
-            console.log('File write failed: ', err);
-        }
-    });
-
 
 });
 

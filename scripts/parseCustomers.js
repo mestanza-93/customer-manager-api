@@ -18,15 +18,13 @@ const fields = {
     updatedAt: 'updated_at'
 };
 
+var arrayCustomers = [];
+
 
 fs.readFile(file, 'utf8', (err, jsonString) => {
     if (err) {
         console.log('File read failed: ', err);
     }
-
-    var data = {
-        customers: []
-    };
 
     jsonString = jsonString.replace(/}}/gi, '}}#')
     var customers = jsonString.split('#');
@@ -44,15 +42,17 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
             customer.created_at = helper.formatDate(customer.created_at.$$date);
             customer.updated_at = helper.formatDate(customer.updated_at.$$date);
 
-            data.customers.push(customer);
+            arrayCustomers.push(customer);
         }
     });
 
-    json = JSON.stringify(data);
+    json = JSON.stringify(arrayCustomers);
 
     fs.writeFile(jsonFile, json, 'utf8', (err) => {
         if (err) {
             console.log('File write failed: ', err);
+        } else {
+            console.log('File write OK');
         }
     });
 

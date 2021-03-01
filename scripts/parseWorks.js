@@ -13,15 +13,12 @@ const fields = {
     updatedAt: 'updated_at',
 };
 
+var arrayWorks = [];
 
 fs.readFile(file, 'utf8', (err, jsonString) => {
     if (err) {
         console.log('File read failed: ', err);
     }
-
-    var data = {
-        works: []
-    };
 
     jsonString = jsonString.replace(/}}/gi, '}}#')
     var works = jsonString.split('#');
@@ -42,15 +39,17 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
 
             delete work.timestamp;
 
-            data.works.push(work);
+            arrayWorks.push(work);
         }
     });
 
-    json = JSON.stringify(data);
+    json = JSON.stringify(arrayWorks);
 
     fs.writeFile(jsonFile, json, 'utf8', (err) => {
         if (err) {
             console.log('File write failed: ', err);
+        } else {
+            console.log('File write OK');
         }
     });
 });

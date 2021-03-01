@@ -36,4 +36,14 @@ function getYear (date)
     return datetime.getFullYear() ?? null;
 }
 
-module.exports = { formatDate, getYear };
+
+function cleanArray (array)
+{
+    var result = array.filter(function () {
+        return true;
+    });
+
+    return result;
+}
+
+module.exports = { formatDate, getYear, cleanArray };

@@ -3,7 +3,6 @@ const helper = require('./helpers/parseHelper');
 
 const file = "scripts/database/budget.db";
 const jsonFile = "scripts/json_files/budgets.json";
-const conceptFile = "scripts/json_files/budget_concepts.json";
 
 const fields = {
     _id: '_id',
@@ -21,16 +20,9 @@ const fieldsConcept = {
     concept: "concept",
     base: "base",
     units: "units",
-    official: "official",
-    relation_id: "relation_id"
+    official: "official"
 };
 
-var data = {
-    budgets: []
-};
-var dataConcept = {
-    concepts: []
-};
 var budgetsArray = [];
 
 
@@ -46,8 +38,6 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
 
         if (budget) {
 
-            var insertBudget = false;
-
             for (var field in fields) {
                 budget = budget.replace(field, fields[field]);
             };
@@ -56,54 +46,43 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
 
             var year = helper.getYear(budget.timestamp);
 
-            if (!budgetsArray[year+budget.budget_id]) {
-                budgetsArray[year+budget.budget_id] = budget._id;
-                insertBudget = true;
-            }
-
             budget.date = helper.formatDate(budget.timestamp);
-
+            budget.year = year;
             budget.created_at = helper.formatDate(budget.created_at.$$date);
             budget.updated_at = helper.formatDate(budget.updated_at.$$date);
 
             var concept = {};
+
             for (var field in fieldsConcept) {
                 concept[fieldsConcept[field]] = budget[field] ?? null;
             }
 
-            concept['relation_id'] = budgetsArray[year+budget.budget_id];
-            concept['official'] = false;
+            concept['official'] = true;
 
-            if (insertBudget) {
-                
+            if (!budgetsArray[year+budget.budget_id]) {
                 delete budget['timestamp'];
                 delete budget['concept'];
                 delete budget['base'];
                 delete budget['units'];
 
-                data.budgets.push(budget);
-   
+                budget.concepts = [];
+                budgetsArray[year+budget.budget_id] = budget;
             }
 
-            dataConcept.concepts.push(concept);
+            budgetsArray[year+budget.budget_id].concepts.push(concept);
         }
     });
 
-    json = JSON.stringify(data);
-    jsonConcepts = JSON.stringify(dataConcept);
+    budgetsArray = helper.cleanArray(budgetsArray);
+    json = JSON.stringify(budgetsArray);
 
     fs.writeFile(jsonFile, json, 'utf8', (err) => {
         if (err) {
             console.log('File write failed: ', err);
+        } else {
+            console.log('File write OK');
         }
     });
-    
-    fs.writeFile(conceptFile, jsonConcepts, 'utf8', (err) => {
-        if (err) {
-            console.log('File write failed: ', err);
-        }
-    });
-
 
 });
 
