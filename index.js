@@ -26,39 +26,32 @@ app.listen(constants.PORT, async () => {
 
 const graphqlSchema = require(constants.SCHEMAS_PATH + "/index");
 
-app.use(
-  "/graphql",
-  graphqlHTTP((request) => {
-    return {
-      context: { startTime: Date.now() },
-      graphiql: true,
-      schema: graphqlSchema,
-      extensions,
-    };
-  })
-);
+const setupGraphQLServer = () => {
 
-app.use(
-  "/",
-  graphqlHTTP((request) => {
-    return {
-      context: { startTime: Date.now() },
-      schema: graphqlSchema,
-      extensions,
-    };
-  })
-);
+  app.use(
+    "/graphiql",
+    graphqlHTTP((request) => {
+      return {
+        context: { startTime: Date.now() },
+        graphiql: true,
+        schema: graphqlSchema,
+        extensions,
+      };
+    })
+  );
 
-// const userFunctions = require(path.join(constants.MODELS_PATH, "user"));
+  app.use(
+    "/graphql",
+    graphqlHTTP((request) => {
+      return {
+        context: { startTime: Date.now() },
+        schema: graphqlSchema,
+        extensions,
+      };
+    })
+  );
+  
+  return app;
+}
 
-// exports.createUserTest = (request, response) => {
-
-//   userFunctions.createUserTest(request, response);
-
-// };
-
-// exports.getAllUsers = (request, response) => {
-
-//   userFunctions.getAllUsers(request, response);
-
-// };
+export default setupGraphQLServer;

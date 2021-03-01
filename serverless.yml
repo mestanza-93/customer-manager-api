@@ -24,16 +24,11 @@ package:
     - .git/**
 
 functions:
-  # first:
-  #   handler: http
-  #   events:
-  #     - http: path
-  createUserTest:
-    handler: createUserTest
+  graphql:
+    handler: graphql
     events:
       - http: path
-
-  getAllUsers:
-    handler: getAllUsers
+  graphiql:
+    handler: graphiql
     events:
       - http: path
