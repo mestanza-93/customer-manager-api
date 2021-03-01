@@ -19,6 +19,9 @@ let Budget = new Schema(
       type: Date,
       default: Date.now
     },
+    year: {
+      type: Number
+    },
     payment: {
       type: Number
     },

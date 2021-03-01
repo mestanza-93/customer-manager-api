@@ -1,7 +1,0 @@
-{
-  ProductMany(limit: 10) {
-    concept
-    base
-    units
-  }
-}

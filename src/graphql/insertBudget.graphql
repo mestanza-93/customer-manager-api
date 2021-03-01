@@ -1,11 +1,11 @@
 mutation {
-  InvoiceCreateOne(record: {
-    invoice_id: 1
+  BudgetCreateOne(record: {
+    budget_id: 1
     work_id: "603cfedd113a4816a48f1720"
     iva: 21
     year: 2021
     payment: 1
-    comment: "Garantia de 2 años"
+    comment: "Garantia de 10 años"
     concepts: [
       {
         concept: "Concepto de prueba 1"

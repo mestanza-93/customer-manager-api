@@ -1,9 +1,0 @@
-{
-  ProductMany(filter: {relation_id: "6038d0cf344f1ca7d9cb842d", official: true}) {
-    _id
-    concept
-    base
-    units
-    official
-  }
-}
