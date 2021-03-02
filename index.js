@@ -1,8 +1,7 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const { graphqlHTTP } = require("express-graphql");
-const path = require("path");
+const bodyParser = require("body-parser");
 
 const constants = require("./constants")
 
@@ -14,7 +13,15 @@ const extensions = ({ context }) => {
   };
 };
 
+
+/**
+ * Setup server
+ */
+const app = express();
 app.use(logger);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 app.listen(constants.PORT, async () => {
   console.log(`Running in PORT: ${constants.PORT}`);
@@ -26,32 +33,35 @@ app.listen(constants.PORT, async () => {
 
 const graphqlSchema = require(constants.SCHEMAS_PATH + "/index");
 
-const setupGraphQLServer = () => {
 
-  app.use(
-    "/graphiql",
-    graphqlHTTP((request) => {
-      return {
-        context: { startTime: Date.now() },
-        graphiql: true,
-        schema: graphqlSchema,
-        extensions,
-      };
-    })
-  );
+app.use(
+  "/graphiql",
+  graphqlHTTP((request) => {
+    return {
+      context: { startTime: Date.now() },
+      graphiql: true,
+      schema: graphqlSchema,
+      extensions,
+    };
+  })
+);
 
-  app.use(
-    "/graphql",
-    graphqlHTTP((request) => {
-      return {
-        context: { startTime: Date.now() },
-        schema: graphqlSchema,
-        extensions,
-      };
-    })
-  );
-  
-  return app;
-}
+app.use(
+  "/api",
+  graphqlHTTP((request) => {
+    return {
+      context: { startTime: Date.now() },
+      schema: graphqlSchema,
+      extensions,
+    };
+  })
+);
 
-export default setupGraphQLServer;
+
+exports.graphqlHandler = graphqlHTTP((request) => {
+  return {
+    context: { startTime: Date.now() },
+    schema: graphqlSchema,
+    extensions,
+  };
+});

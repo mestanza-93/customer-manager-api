@@ -24,11 +24,19 @@ package:
     - .git/**
 
 functions:
-  graphql:
-    handler: graphql
+  api:
+    handler: graphqlHandler
     events:
-      - http: path
-  graphiql:
-    handler: graphiql
-    events:
-      - http: path
+    - http: api
+  # http:
+  #   handler: http
+  #   events:
+  #     - http: path
+  # api:
+  #   handler: api
+  #   events:
+  #     - http: path
+  # graphiql:
+  #   handler: graphiql
+  #   events:
+  #     - http: path

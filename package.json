@@ -1,7 +1,7 @@
 {
   "name": "mongoatlas",
   "version": "0.1.0",
-  "description": "Customer Manager API",
+  "description": "Instalaciones ML API",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "debug": "nodemon --trace-warnings index.js",
     "start": "node index.js"
   },
-  "author": "serverless.com",
+  "author": "mestanza-93",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.7",
