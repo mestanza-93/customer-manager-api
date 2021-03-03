@@ -1,7 +1,14 @@
-# Customer manager
+# Instalaciones ML
 
-Customer manager API with Google Cloud
+Instalaciones ML API
 
+
+## Built with 🛠️
+
+* [MongoDB](https://www.mongodb.com/) - Database
+* [GraphQL](https://graphql.org/) - Query Language
+* [Google Cloud Functions](https://cloud.google.com/functions/) - FaaS
+* [ExpressJS](https://expressjs.com/) - Backend Framework
 
 ## Author ✒️
 
@@ -9,3 +16,5 @@ Customer manager API with Google Cloud
  
 
 ## License 📄
+
+Project under license (MIT) - You can check [LICENSE](LICENSE) for details.

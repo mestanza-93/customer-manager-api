@@ -13,6 +13,8 @@ const extensions = ({ context }) => {
   };
 };
 
+const graphqlSchema = require(constants.SCHEMAS_PATH + "/index");
+
 
 /**
  * Setup server
@@ -22,7 +24,6 @@ app.use(logger);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 app.listen(constants.PORT, async () => {
   console.log(`Running in PORT: ${constants.PORT}`);
   await mongoose.connect(constants.MONGODB, {
@@ -31,9 +32,9 @@ app.listen(constants.PORT, async () => {
   });
 });
 
-const graphqlSchema = require(constants.SCHEMAS_PATH + "/index");
-
-
+/**
+ * Routes
+ */
 app.use(
   "/graphiql",
   graphqlHTTP((request) => {
@@ -58,9 +59,21 @@ app.use(
 );
 
 
+/**
+ * GraphQL handlers exports to functions
+ */
 exports.graphqlHandler = graphqlHTTP((request) => {
   return {
     context: { startTime: Date.now() },
+    schema: graphqlSchema,
+    extensions,
+  };
+});
+
+exports.graphiqlHandler = graphqlHTTP((request) => {
+  return {
+    context: { startTime: Date.now() },
+    graphiql: true,
     schema: graphqlSchema,
     extensions,
   };

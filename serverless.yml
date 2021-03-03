@@ -1,4 +1,4 @@
-service: mongoatlas
+service: instalacionesml
 
 provider:
   name: google
@@ -28,15 +28,8 @@ functions:
     handler: graphqlHandler
     events:
     - http: api
-  # http:
-  #   handler: http
-  #   events:
-  #     - http: path
-  # api:
-  #   handler: api
-  #   events:
-  #     - http: path
-  # graphiql:
-  #   handler: graphiql
-  #   events:
-  #     - http: path
+  graphiql:
+    handler: graphiqlHandler
+    events:
+    - http: graphiql
+
