@@ -80,3 +80,5 @@ exports.graphiqlHandler = graphqlHTTP((request) => {
     extensions,
   };
 });
+
+mongoose.disconnect();
