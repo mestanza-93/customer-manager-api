@@ -27,10 +27,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.listen(constants.PORT, async () => {
-  console.log(`Running in PORT: ${constants.PORT}`);
+  // console.log(`Running in PORT: ${constants.PORT}`);
   await mongoose.connect(constants.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    poolSize: 2, // Maintain up to 'X' socket connections
+    socketTimeoutMS: 10000, // Close sockets after 'X' seconds of inactivity
+    serverSelectionTimeoutMS: 5000 // Keep trying to send operations for 'X' seconds
   });
 });
 
