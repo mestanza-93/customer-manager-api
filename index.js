@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { graphqlHTTP } = require("express-graphql");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 
 const constants = require("./constants")
 
@@ -21,6 +22,7 @@ const graphqlSchema = require(constants.SCHEMAS_PATH + "/index");
  */
 const app = express();
 app.use(logger);
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
