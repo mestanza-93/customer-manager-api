@@ -27,7 +27,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.listen(constants.PORT, async () => {
-  // console.log(`Running in PORT: ${constants.PORT}`);
   await mongoose.connect(constants.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -42,24 +41,41 @@ app.listen(constants.PORT, async () => {
  */
 app.use(
   "/graphiql",
-  graphqlHTTP((request) => {
-    return {
-      context: { startTime: Date.now() },
-      graphiql: true,
-      schema: graphqlSchema,
-      extensions,
-    };
+  graphqlHTTP({
+    context: { startTime: Date.now() },
+    graphiql: true,
+    schema: graphqlSchema,
+    extensions,
+    writeResponse: (result, res) => {
+      mongoose.disconnect();
+
+      if (result.errors) {
+        logger.error("Error executing query: " + query + "\nVariables:\n" + JSON.stringify(variables) + "\nErrors:\n" + JSON.stringify(result))
+        res.send(500).json(sanitizeErrors(result))
+      } else {
+        res.send(200).json(result)
+      }
+    }
+    
   })
 );
 
 app.use(
   "/api",
-  graphqlHTTP((request) => {
-    return {
-      context: { startTime: Date.now() },
-      schema: graphqlSchema,
-      extensions,
-    };
+  graphqlHTTP({
+    context: { startTime: Date.now() },
+    schema: graphqlSchema,
+    extensions,
+    writeResponse: (result, res) => {
+      mongoose.disconnect();
+
+      if (result.errors) {
+        logger.error("Error executing query: " + query + "\nVariables:\n" + JSON.stringify(variables) + "\nErrors:\n" + JSON.stringify(result))
+        res.send(500).json(sanitizeErrors(result))
+      } else {
+        res.send(200).json(result)
+      }
+    }
   })
 );
 
@@ -67,21 +83,38 @@ app.use(
 /**
  * GraphQL handlers exports to functions
  */
-exports.graphqlHandler = graphqlHTTP((request) => {
-  return {
-    context: { startTime: Date.now() },
-    schema: graphqlSchema,
-    extensions,
-  };
+exports.graphqlHandler = graphqlHTTP({
+  context: { startTime: Date.now() },
+  schema: graphqlSchema,
+  extensions,
+  writeResponse: (result, res) => {
+    mongoose.disconnect();
+
+    if (result.errors) {
+      res.send(500).json(sanitizeErrors(result))
+    } else {
+      res.send(200).json(result)
+    }
+  }
 });
 
-exports.graphiqlHandler = graphqlHTTP((request) => {
-  return {
-    context: { startTime: Date.now() },
-    graphiql: true,
-    schema: graphqlSchema,
-    extensions,
-  };
+exports.graphiqlHandler = graphqlHTTP({
+  context: { startTime: Date.now() },
+  graphiql: true,
+  schema: graphqlSchema,
+  extensions,
+  writeResponse: (result, res) => {
+    mongoose.disconnect();
+
+    if (result.errors) {
+      res.send(500).json(sanitizeErrors(result))
+    } else {
+      res.send(200).json(result)
+    }
+  }
 });
 
+/**
+ * Close all Mongo connections opened
+ */
 mongoose.disconnect();
