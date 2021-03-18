@@ -49,6 +49,9 @@ app.use(
     writeResponse: (result, res) => {
       mongoose.disconnect();
 
+      res.set('Access-Control-Allow-Origin', "*");
+      res.set('Access-Control-Allow-Methods', 'GET, POST');
+
       if (result.errors) {
         logger.error("Error executing query: " + query + "\nVariables:\n" + JSON.stringify(variables) + "\nErrors:\n" + JSON.stringify(result))
         res.send(500).json(sanitizeErrors(result))
@@ -68,6 +71,9 @@ app.use(
     extensions,
     writeResponse: (result, res) => {
       mongoose.disconnect();
+
+      res.set('Access-Control-Allow-Origin', "*");
+      res.set('Access-Control-Allow-Methods', 'GET, POST');
 
       if (result.errors) {
         logger.error("Error executing query: " + query + "\nVariables:\n" + JSON.stringify(variables) + "\nErrors:\n" + JSON.stringify(result))
@@ -90,6 +96,9 @@ exports.graphqlHandler = graphqlHTTP({
   writeResponse: (result, res) => {
     mongoose.disconnect();
 
+    res.set('Access-Control-Allow-Origin', "*");
+    res.set('Access-Control-Allow-Methods', 'GET, POST');
+
     if (result.errors) {
       res.send(500).json(sanitizeErrors(result))
     } else {
@@ -106,6 +115,9 @@ exports.graphiqlHandler = graphqlHTTP({
   writeResponse: (result, res) => {
     mongoose.disconnect();
 
+    res.set('Access-Control-Allow-Origin', "*");
+    res.set('Access-Control-Allow-Methods', 'GET, POST');
+
     if (result.errors) {
       res.send(500).json(sanitizeErrors(result))
     } else {
@@ -116,5 +128,6 @@ exports.graphiqlHandler = graphqlHTTP({
 
 /**
  * Close all Mongo connections opened
+ * Secure disconnect
  */
 mongoose.disconnect();
