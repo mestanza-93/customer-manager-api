@@ -5,9 +5,6 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 
 const constants = require("./constants")
-
-const logger = require(constants.CORE_PATH + "/logger");
-
 const extensions = ({ context }) => {
   return {
     runTime: Date.now() - context.startTime,
@@ -21,20 +18,10 @@ const graphqlSchema = require(constants.SCHEMAS_PATH + "/index");
  * Setup server
  */
 const app = express();
-app.use(logger);
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.listen(constants.PORT, async () => {
-  await mongoose.connect(constants.MONGODB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    poolSize: 2, // Maintain up to 'X' socket connections
-    socketTimeoutMS: 10000, // Close sockets after 'X' seconds of inactivity
-    serverSelectionTimeoutMS: 5000 // Keep trying to send operations for 'X' seconds
-  });
-});
 
 /**
  * Routes
@@ -48,12 +35,8 @@ app.use(
     extensions,
     writeResponse: (result, res) => {
       mongoose.disconnect();
-
-      res.set('Access-Control-Allow-Origin', "*");
-      res.set('Access-Control-Allow-Methods', 'GET, POST');
-
+    
       if (result.errors) {
-        logger.error("Error executing query: " + query + "\nVariables:\n" + JSON.stringify(variables) + "\nErrors:\n" + JSON.stringify(result))
         res.send(500).json(sanitizeErrors(result))
       } else {
         res.send(200).json(result)
@@ -63,20 +46,17 @@ app.use(
   })
 );
 
-app.use(
+app.all(
   "/api",
+  cors(),
   graphqlHTTP({
     context: { startTime: Date.now() },
     schema: graphqlSchema,
     extensions,
-    writeResponse: (result, res) => {
+    writeResponse: (result, res) => { 
       mongoose.disconnect();
-
-      res.set('Access-Control-Allow-Origin', "*");
-      res.set('Access-Control-Allow-Methods', 'GET, POST');
-
+    
       if (result.errors) {
-        logger.error("Error executing query: " + query + "\nVariables:\n" + JSON.stringify(variables) + "\nErrors:\n" + JSON.stringify(result))
         res.send(500).json(sanitizeErrors(result))
       } else {
         res.send(200).json(result)
@@ -84,6 +64,17 @@ app.use(
     }
   })
 );
+
+app.listen(constants.PORT, async () => {
+  await mongoose.connect(constants.MONGODB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    poolSize: 2, // Maintain up to 'X' socket connections
+    socketTimeoutMS: 10000, // Close sockets after 'X' miliseconds of inactivity
+    serverSelectionTimeoutMS: 5000 // Keep trying to send operations for 'X' miliseconds
+  });
+});
+
 
 
 /**
@@ -97,8 +88,8 @@ exports.graphqlHandler = graphqlHTTP({
     mongoose.disconnect();
 
     res.set('Access-Control-Allow-Origin', "*");
-    res.set('Access-Control-Allow-Methods', 'GET, POST');
-
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  
     if (result.errors) {
       res.send(500).json(sanitizeErrors(result))
     } else {
@@ -113,11 +104,11 @@ exports.graphiqlHandler = graphqlHTTP({
   schema: graphqlSchema,
   extensions,
   writeResponse: (result, res) => {
-    mongoose.disconnect();
-
     res.set('Access-Control-Allow-Origin', "*");
-    res.set('Access-Control-Allow-Methods', 'GET, POST');
-
+    res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  
+    mongoose.disconnect();
+  
     if (result.errors) {
       res.send(500).json(sanitizeErrors(result))
     } else {
@@ -125,9 +116,3 @@ exports.graphiqlHandler = graphqlHTTP({
     }
   }
 });
-
-/**
- * Close all Mongo connections opened
- * Secure disconnect
- */
-mongoose.disconnect();

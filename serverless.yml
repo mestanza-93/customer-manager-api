@@ -28,6 +28,7 @@ functions:
     handler: graphqlHandler
     events:
     - http: api
+
   graphiql:
     handler: graphiqlHandler
     events:
