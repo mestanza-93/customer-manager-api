@@ -16,16 +16,14 @@
     "serverless-google-cloudfunctions": "*"
   },
   "dependencies": {
+    "apollo-server-cloud-functions": "^2.21.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
-    "express-winston": "^4.0.5",
     "graphql": "^15.5.0",
     "graphql-compose": "^7.25.0",
     "graphql-compose-mongoose": "^9.1.0",
     "mongodb": "^3.6.1",
-    "mongoose": "^5.11.16",
-    "winston": "^3.3.3",
-    "winston-mongodb": "^5.0.7"
+    "mongoose": "^5.11.16"
   }
 }
