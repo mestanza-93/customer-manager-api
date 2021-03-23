@@ -5,28 +5,35 @@ const Schema = mongoose.Schema;
 let Customer = new Schema(
   {
     name: {
-      type: String
+      type: String,
+      index: true
     },
     lastname: {
-      type: String
+      type: String,
+      index: true
     },
     phone: {
-      type: Number
+      type: Number,
+      index: true
     },
     phone2: {
       type: Number
     },
     dni: {
-      type: String
+      type: String,
+      index: true
     },
     postalcode: {
-      type: Number
+      type: Number,
+      index: true
     },
     address: {
-      type: String
+      type: String,
+      index: true
     },
     town: {
-      type: String
+      type: String,
+      index: true
     },
   },
 
@@ -34,6 +41,7 @@ let Customer = new Schema(
     timestamps: {
       createdAt: "created_at",
       updatedAt: "updated_at",
+      index: true
     },
   }
 );

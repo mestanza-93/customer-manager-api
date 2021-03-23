@@ -7,7 +7,8 @@ let concept = require("./Concept");
 let Invoice = new Schema(
   {
     invoice_id: {
-      type: Number
+      type: Number,
+      index: true
     },
     work_id: {
       type: String
@@ -17,13 +18,16 @@ let Invoice = new Schema(
     },
     date: {
       type: Date,
-      default: Date.now
+      default: Date.now,
+      index: true
     },
     year: {
-      type: Number
+      type: Number,
+      index: true
     },
     payment: {
-      type: Number
+      type: Number,
+      index: true
     },
     comment: {
       type: String
