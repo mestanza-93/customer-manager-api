@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 const { composeWithMongoose } = require("graphql-compose-mongoose");
+const { ObjectId } = require("bson");
 const Schema = mongoose.Schema;
 
 let Customer = new Schema(
   {
+    _id: {
+      type: String,
+    },
     name: {
       type: String,
       index: true

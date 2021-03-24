@@ -6,6 +6,9 @@ let concept = require("./Concept");
 
 let Invoice = new Schema(
   {
+    _id: {
+      type: String,
+    },
     invoice_id: {
       type: Number,
       index: true

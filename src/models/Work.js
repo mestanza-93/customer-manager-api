@@ -4,6 +4,9 @@ const Schema = mongoose.Schema;
 
 let Work = new Schema(
   {
+    _id: {
+      type: String,
+    },
     name: {
       type: String,
       index: true

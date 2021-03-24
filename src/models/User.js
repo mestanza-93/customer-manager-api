@@ -5,6 +5,9 @@ const Schema = mongoose.Schema;
 
 let User = new Schema(
   {
+    _id: {
+      type: String,
+    },
     name: {
       type: String
     },

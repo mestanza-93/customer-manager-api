@@ -6,6 +6,9 @@ let concept = require("./Concept");
 
 let Budget = new Schema(
   {
+    _id: {
+      type: String,
+    },
     budget_id: {
       type: Number,
       index: true
