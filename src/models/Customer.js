@@ -27,6 +27,10 @@ let Customer = new Schema(
       type: String,
       index: true
     },
+    email: {
+      type: String,
+      index: true
+    },
     postalcode: {
       type: Number,
       index: true
