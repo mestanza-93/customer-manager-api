@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var uuid = require('uuid');
 const { composeWithMongoose } = require("graphql-compose-mongoose");
 const Schema = mongoose.Schema;
 
@@ -8,6 +9,8 @@ let Budget = new Schema(
   {
     _id: {
       type: String,
+      index: { unique: true },
+      default: uuid.v4
     },
     budget_id: {
       type: Number,

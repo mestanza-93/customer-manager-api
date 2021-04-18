@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
+var uuid = require('uuid');
 const { composeWithMongoose } = require("graphql-compose-mongoose");
-const { ObjectId } = require("bson");
 const Schema = mongoose.Schema;
 
 let Customer = new Schema(
   {
     _id: {
       type: String,
+      index: { unique: true },
+      default: uuid.v4
     },
     name: {
       type: String,
