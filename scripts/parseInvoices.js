@@ -51,6 +51,7 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
             invoice.year = year;
             invoice.created_at = helper.formatDate(invoice.created_at.$$date);
             invoice.updated_at = helper.formatDate(invoice.updated_at.$$date);
+            invoice.invoice_id = parseInt(invoice.invoice_id);
 
             var concept = {};
 

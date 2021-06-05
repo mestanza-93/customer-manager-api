@@ -50,6 +50,7 @@ fs.readFile(file, 'utf8', (err, jsonString) => {
             budget.year = year;
             budget.created_at = helper.formatDate(budget.created_at.$$date);
             budget.updated_at = helper.formatDate(budget.updated_at.$$date);
+            budget.budget_id = parseInt(budget.budget_id);
 
             var concept = {};
 
