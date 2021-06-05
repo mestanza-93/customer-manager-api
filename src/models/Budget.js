@@ -17,7 +17,8 @@ let Budget = new Schema(
       index: true
     },
     work_id: {
-      type: String
+      type: String,
+      index: true
     },
     iva: {
       type: Number
