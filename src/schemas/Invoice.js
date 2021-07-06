@@ -5,6 +5,11 @@ const { InvoiceTC, InvoiceSchema } = require(path.join(
   "Invoice"
 ));
 
+const { WorkQuery } = require(path.join(
+  constants.SCHEMAS_PATH,
+  "Work"
+));
+
 InvoiceTC.addResolver({
   name: "create",
   kind: "mutation",
@@ -18,6 +23,14 @@ InvoiceTC.addResolver({
       recordId: InvoiceTC.getRecordIdFn()(Invoice),
     };
   },
+});
+
+InvoiceTC.addRelation('work', {
+  resolver: () => WorkQuery.WorkById,
+  prepareArgs: {
+    _id: (source) => source.work_id,
+  },
+  projection: { work_id: true },
 });
 
 const InvoiceQuery = {

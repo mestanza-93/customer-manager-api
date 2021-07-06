@@ -4,6 +4,10 @@ const { WorkTC, WorkSchema } = require(path.join(
   constants.MODELS_PATH,
   "Work"
 ));
+const { CustomerQuery } = require(path.join(
+  constants.SCHEMAS_PATH,
+  "Customer"
+));
 
 WorkTC.addResolver({
   name: "create",
@@ -18,6 +22,14 @@ WorkTC.addResolver({
       recordId: WorkTC.getRecordIdFn()(Work),
     };
   },
+});
+
+WorkTC.addRelation('customer', {
+  resolver: () => CustomerQuery.CustomerById,
+  prepareArgs: {
+    _id: (source) => source.customer_id,
+  },
+  projection: { customer_id: true },
 });
 
 const WorkQuery = {

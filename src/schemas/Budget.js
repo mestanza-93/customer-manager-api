@@ -5,6 +5,11 @@ const { BudgetTC, BudgetSchema } = require(path.join(
   "Budget"
 ));
 
+const { WorkQuery } = require(path.join(
+  constants.SCHEMAS_PATH,
+  "Work"
+));
+
 BudgetTC.addResolver({
   name: "create",
   kind: "mutation",
@@ -18,6 +23,15 @@ BudgetTC.addResolver({
       recordId: BudgetTC.getRecordIdFn()(Budget),
     };
   },
+});
+
+
+BudgetTC.addRelation('work', {
+  resolver: () => WorkQuery.WorkById,
+  prepareArgs: {
+    _id: (source) => source.work_id,
+  },
+  projection: { work_id: true },
 });
 
 const BudgetQuery = {
