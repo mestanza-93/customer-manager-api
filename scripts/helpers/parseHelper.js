@@ -11,6 +11,10 @@ function formatDate (value)
         var min = twoDigitsDate(date.getMinutes());
         var sec = twoDigitsDate(date.getSeconds());
 
+        if (hour >= 24) {
+            hour = 23;
+        }
+
         var time = year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + '.000+00:00';
     }
     
