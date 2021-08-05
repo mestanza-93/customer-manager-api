@@ -4,10 +4,7 @@ const { WorkTC, WorkSchema } = require(path.join(
   constants.MODELS_PATH,
   "Work"
 ));
-const { CustomerQuery } = require(path.join(
-  constants.SCHEMAS_PATH,
-  "Customer"
-));
+
 
 WorkTC.addResolver({
   name: "create",
@@ -22,14 +19,6 @@ WorkTC.addResolver({
       recordId: WorkTC.getRecordIdFn()(Work),
     };
   },
-});
-
-WorkTC.addRelation('customer', {
-  resolver: () => CustomerQuery.CustomerById,
-  prepareArgs: {
-    _id: (source) => source.customer_id,
-  },
-  projection: { customer_id: true },
 });
 
 const WorkQuery = {
@@ -55,3 +44,53 @@ const WorkMutation = {
 };
 
 module.exports = { WorkQuery: WorkQuery, WorkMutation: WorkMutation };
+
+const { CustomerQuery } = require(path.join(
+  constants.SCHEMAS_PATH,
+  "Customer"
+));
+
+WorkTC.addRelation('customer', {
+  resolver: () => CustomerQuery.CustomerById,
+  prepareArgs: {
+    _id: (source) => source.customer_id,
+  },
+  projection: { customer_id: true },
+});
+
+const { InvoiceQuery } = require(path.join(
+  constants.SCHEMAS_PATH,
+  "Invoice"
+));
+
+WorkTC.addRelation('invoices', {
+  resolver: () => InvoiceQuery.InvoiceMany,
+  prepareArgs: {
+    filter: (source) => ({
+      _operators : { 
+        work_id : { in: source._id },
+      }
+    }),
+    sort: 'DATE_DESC'
+  },
+  projection: { _id: true },
+});
+
+
+const { BudgetQuery } = require(path.join(
+  constants.SCHEMAS_PATH,
+  "Budget"
+));
+
+WorkTC.addRelation('budgets', {
+  resolver: () => BudgetQuery.BudgetMany,
+  prepareArgs: {
+    filter: (source) => ({
+      _operators : { 
+        work_id : { in: source._id },
+      }
+    }),
+    sort: 'DATE_DESC'
+  },
+  projection: { _id: true },
+});

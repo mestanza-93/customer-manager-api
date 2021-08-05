@@ -43,3 +43,21 @@ const CustomerMutation = {
 };
 
 module.exports = { CustomerQuery: CustomerQuery, CustomerMutation: CustomerMutation };
+
+const { WorkQuery } = require(path.join(
+  constants.SCHEMAS_PATH,
+  "Work"
+));
+
+CustomerTC.addRelation('works', {
+  resolver: () => WorkQuery.WorkMany,
+  prepareArgs: {
+    filter: (source) => ({
+      _operators : { 
+        customer_id : { in: source._id },
+      }
+    }),
+    sort: 'DATE_DESC'
+  },
+  projection: { _id: true },
+});
