@@ -71,7 +71,6 @@ WorkTC.addRelation('invoices', {
         work_id : { in: source._id },
       }
     }),
-    sort: 'DATE_DESC'
   },
   projection: { _id: true },
 });
@@ -90,7 +89,6 @@ WorkTC.addRelation('budgets', {
         work_id : { in: source._id },
       }
     }),
-    sort: 'DATE_DESC'
   },
   projection: { _id: true },
 });

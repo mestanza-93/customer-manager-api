@@ -56,8 +56,7 @@ CustomerTC.addRelation('works', {
       _operators : { 
         customer_id : { in: source._id },
       }
-    }),
-    sort: 'DATE_DESC'
+    })
   },
   projection: { _id: true },
 });
