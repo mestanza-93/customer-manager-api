@@ -3,6 +3,7 @@
 .env
 tmp
 .coveralls.yml
+serverless.yml
 
 # Constants file
 constants.js
