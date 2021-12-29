@@ -2,6 +2,7 @@ function formatDate (value)
 {
     var time = null;
     var date = new Date(value);
+    var formattedDate = null;
 
     if (isValidDate) {
         var year = date.getFullYear();
@@ -16,9 +17,11 @@ function formatDate (value)
         }
 
         var time = year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + '.000+00:00';
+
+        var formattedDate = new Date(time);
     }
     
-    return time;
+    return formattedDate;
 }
 
 
