@@ -2,7 +2,7 @@ function formatDate (value)
 {
     var time = null;
     var date = new Date(value);
-    var formattedDate = null;
+    var formattedDate = {};
 
     if (isValidDate) {
         var year = date.getFullYear();
@@ -16,9 +16,15 @@ function formatDate (value)
             hour = 23;
         }
 
-        var time = year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + '.000+00:00';
+        var time = year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + 'Z';
+        // var time = "ISODate(\"" + year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + '.000+00:00\")';
+        // var time = "{$date:\"" + year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + 'Z\"}';
 
-        var formattedDate = new Date(time);
+        formattedDate = {
+            "$date": time
+        }
+
+        // formattedDate = new Date(time);
     }
     
     return formattedDate;
