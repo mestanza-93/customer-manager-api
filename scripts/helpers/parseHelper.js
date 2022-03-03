@@ -12,8 +12,26 @@ function formatDate (value)
         var min = twoDigitsDate(date.getMinutes());
         var sec = twoDigitsDate(date.getSeconds());
 
+        if (month >= 13) {
+            month = 12;
+        }
+        if (['01','03','05','07','08','10','12'].includes(month) && day > 31) {
+            day = 31;
+        }
+        if (['02'].includes(month) && day > 28) {
+            day = 28;
+        }
+        if (['04','06','09','11'].includes(month) && day > 30) {
+            day = 30;
+        }
         if (hour >= 24) {
             hour = 23;
+        }
+        if (min >= 60) {
+            min = 59;
+        }
+        if (sec >= 60) {
+            sec = 59;
         }
 
         var time = year + '-' + month + '-' + day + 'T' + hour + ':' + min + ':' + sec + 'Z';

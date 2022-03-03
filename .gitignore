@@ -38,6 +38,7 @@ package-lock.json
 # Scripts
 scripts/database
 scripts/json_files
+dbimport.sh
 
 # IDE
 **/.idea
